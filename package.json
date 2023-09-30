@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "esbuild src/csa.js --bundle --outdir=get --format=esm --minify"
+  }
+}

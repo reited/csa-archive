@@ -1,0 +1,23 @@
+<csa-page title="{ home }">
+  <p>demo: </p>
+  <button id="mb">-<span csa-watch="multiplier">1</span></button>
+  <span id="reactive" csa-watch="count">0</span>
+  <button id="pb">+<span csa-watch="multiplier">1</span></button>
+  <input type="range" name="" id="multiplier" value="1">
+  <script type="module">
+    console.log('home.html init');
+
+    mb.onclick = () => {
+      window.watcher.set('count', reactive.innerHTML - window.watcher.get('multiplier'))
+    }
+    pb.onclick = () => {
+      window.watcher.set('count', reactive.innerHTML - -window.watcher.get('multiplier'))
+    }
+
+    multiplier.oninput = () => {
+      window.watcher.set('multiplier', multiplier.value);
+    }
+
+    window.watcher.set('multiplier', 1)
+  </script>
+</csa-page>
