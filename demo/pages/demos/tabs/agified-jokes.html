@@ -1,0 +1,35 @@
+<csa-tab csa-title="agified jokes" name="./pages/demos/tabs/agified-jokes.html">
+  <form is="csa-form" id="form">
+    <label for="name">
+      enter your name:
+    </label>
+    <input type="text" name="name" id="name" oninput="window.watcher.set('name', this.value)" required>
+    <button type="submit">send <span csa-watch="name"></span> as your name</button>
+  </form>
+  <div id="results" hidden>
+    results: 
+    <p>
+      here's a joke for a <span csa-watch="age"></span> yo: 
+      <ul>
+        <li csa-watch="joke_setup"></li>
+        <li csa-watch="joke_punchline"></li>
+      </ul>
+    </p>
+  </div>
+  <p>more info: https://agify.io/ https://official-joke-api.appspot.com/random_joke</p>
+  <script defer csa-execute>
+    async function submit () {
+      results.hidden = false;
+
+      console.log(name);
+      const age = await (await fetch(`https://api.agify.io?name=${name.value}`)).json()
+      window.watcher.set('age', age.age);
+      const joke = await (await fetch('https://official-joke-api.appspot.com/random_joke')).json();
+      window.watcher.set('joke_setup', joke.setup);
+      window.watcher.set('joke_punchline', joke.punchline);
+    }
+    form.onsend = async () => {
+      await submit();
+    }
+  </script>
+</csa-tab>

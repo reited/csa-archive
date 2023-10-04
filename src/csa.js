@@ -3,15 +3,17 @@
  * this project is focused on making the implementation of reactive (literally = data change = ui change) spa-s (single page application) a little bit easier
  * 
  * todo
- * init script
- * spa, - navigation: routing based on fs or devdefined; loading animations
+ * spa, - navigation: href prefix or devdefined, hidden loading when navigating on the same page, onnavigation() onfinished()
+ * document.title consistency
  * reactivity
+ * forced lazyloaded, forced prefetch, lazyscripts, only run on firstload scripts or always run for tabs
  * useful functions, like useresource ...
+ *  - csa-bind (for auto update based on value change)
  * webcomponents, like csa-forms ...
+ *  - form autosave
  */
 
-import * as spa from "./spapp.js";
-import * as reactivity from "./reactivity.js";
+import * as spa from "./spa/spa.js";
 
 /**
  * the init function, the functions relating to the loaded page are runned here, etc ...
@@ -27,6 +29,10 @@ export function init(o) {
   customElements.define('csa-page-wrapper', spa.PageWrapper);
   customElements.define('csa-page', spa.Page);
   customElements.define('csa-a', spa.Anchor, { extends: 'a' });
+  customElements.define('csa-tab-wrapper', spa.TabWrapper);
+  customElements.define('csa-tab', spa.Tab);
+  customElements.define('csa-form', spa.Form, { extends: 'form' });
+
 
   window.watcher = {
     get (name) {
@@ -41,5 +47,4 @@ export function init(o) {
 }
 
 // export { spa, reactivity };
-export * from "./spapp.js";
-export * from "./reactivity.js";
+export * from "./spa/spa.js";

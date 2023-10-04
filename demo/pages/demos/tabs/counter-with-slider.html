@@ -1,23 +1,21 @@
-<csa-page title="{ home }">
-  <p>demo: </p>
+<csa-tab csa-title="counter with slider" name="./pages/demos/tabs/counter-with-slider.html">
+  <p>couter with slider demo: </p>
   <button id="mb">-<span csa-watch="multiplier">1</span></button>
   <span id="reactive" csa-watch="count">0</span>
   <button id="pb">+<span csa-watch="multiplier">1</span></button>
   <input type="range" name="" id="multiplier" value="1">
-  <script type="module">
-    console.log('home.html init');
-
+  <script csa-reexecute="true">
     mb.onclick = () => {
-      window.watcher.set('count', reactive.innerHTML - window.watcher.get('multiplier'))
+      window.watcher.set('count', reactive.innerHTML - window.watcher.get('multiplier'));
     }
     pb.onclick = () => {
-      window.watcher.set('count', reactive.innerHTML - -window.watcher.get('multiplier'))
+      window.watcher.set('count', reactive.innerHTML - -window.watcher.get('multiplier'));
     }
 
     multiplier.oninput = () => {
       window.watcher.set('multiplier', multiplier.value);
     }
 
-    window.watcher.set('multiplier', 1)
+    window.watcher.set('multiplier', 1);
   </script>
-</csa-page>
+</csa-tab>
