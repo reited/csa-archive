@@ -33,11 +33,8 @@ export class Title {
         title.match(/\((.*)\)/)?.[1] :
         ''
       );
-      // console.log(!!pagetitle && !!tabtitle);
-      // console.log(title.match(/\((.*)\)/)?.[1]);
       
       document.title = title;
-      console.log(`setting title: ${title}`)
     }
   }
 }
@@ -66,20 +63,3 @@ export class Form extends HTMLFormElement {
 
   onsend = null;
 }
-
-/*
-export class PageData {
-  save () {
-    localStorage.setItem(`csa-pagedata`, JSON.stringify(window.watcher));
-  }
-  restore () {
-    return JSON.parse(localStorage.getItem(`csa-pagedata`));
-  }
-  delete () {
-    localStorage.removeItem(`csa-pagedata`);
-  }
-  has () {
-    return !!localStorage.getItem(`csa-pagedata`);
-  }
-}
-*/
