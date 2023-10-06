@@ -7,20 +7,24 @@ export class PageWrapper extends HTMLElement {
   constructor () {
     super();
 
-    this.load(sessionStorage.getItem('csa-lastPage') || this.config.defaultPage);
+    this.load(sessionStorage.getItem('csa-lastPage') || this.getAttribute('csa-default-page'));
+    if (!this.getAttribute('csa-default-page')) {
+      console.warn(`DEFAULT_PAGE_UNDEFINED${this.id && ` on #${this.id}`}. This could result in pages not loading by default, only if navigated manually.`);
+    }
+
     return;
   }
 
   async load (url) {
     // simply load the html
-    if (this.config.loadingAnimation) {
-      this.innerHTML = this.config.loadingAnimation;
-    }
+    // if (this.config.loadingAnimation) {
+    //   this.innerHTML = this.config.loadingAnimation;
+    // }
 
     try {
       this.innerHTML = await (await fetch(url)).text();
     } catch (error) {
-      this.innerHTML = this.config.onError || null;
+      // this.innerHTML = this.config.onError || null;
     }
     
     new Title().set();

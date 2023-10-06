@@ -1,26 +1,35 @@
-import { Title } from "./spa.js";
+import { Title, addAsync } from "./spa.js";
 
 export class TabWrapper extends HTMLElement {
-  config = JSON.parse(localStorage.getItem('csa-tab-wrapper-settings'));
+  // config = JSON.parse(localStorage.getItem('csa-tab-wrapper-settings'));
 
-  start_url = sessionStorage.getItem('csa-lastTab') || this.config.defaultTab;
+  start_url = sessionStorage.getItem('csa-lastTab') || this.getAttribute('csa-default-tab');
 
   constructor () {
     super();
+
+    if (!this.getAttribute('csa-default-tab')) {
+      console.warn(`DEFAULT_TAB_UNDEFINED${this.id && ` on #${this.id}`}. This could result in tabs not loading by default, only if navigated manually.`);
+    }
   }
 
   async change (target) {
     // searching for the tab by name or src
     const target_tab = this.querySelector(`csa-tab[name="${target}"]`);
+    // console.log('changing to tab', target_tab);
 
     // // if it hasn't been loaded yet, load it
     if (target_tab && !target_tab.executed) {
-      const executeable = this.querySelector('script[csa-execute]')?.innerHTML;
-      executeable && eval(executeable);
+      // console.log('executing script', target_tab);
+
+      const executeable = target_tab.querySelector('script[csa-execute]')?.innerHTML;
+      executeable && eval(addAsync(executeable));
+      // executeable && eval(executeable);
       target_tab.executed = true;
     }
     const reexecuteable = target_tab?.querySelector('script[csa-reexecute]')?.innerHTML;
-    reexecuteable && eval(reexecuteable);
+    reexecuteable && eval(addAsync(reexecuteable));
+    // reexecuteable && eval(reexecuteable);
 
     // hide all unneccessary tabs, only show currently selected
     this.querySelectorAll('csa-tab').forEach((e) => {
@@ -67,7 +76,9 @@ export class Tab extends HTMLElement {
     const reexecuteable = this.querySelector('script[csa-reexecute][csa-tab-init]')?.innerHTML;
 
     // when initing, it must run both
-    executeable && eval(executeable);
-    reexecuteable && eval(reexecuteable);
+    executeable && eval(addAsync(executeable));
+    // executeable && eval(executeable);
+    reexecuteable && eval(addAsync(reexecuteable));
+    // reexecuteable && eval(reexecuteable);
   }
 }

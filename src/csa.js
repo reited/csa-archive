@@ -2,11 +2,10 @@
  * welcome to csa (as in client side application)
  * this project is focused on making the implementation of reactive (literally = data change = ui change) spa-s (single page application) a little bit easier
  * 
- * todo
+ * todo:
  * spa, - navigation: href prefix or devdefined, hidden loading when navigating on the same page, onnavigation() onfinished()
- * document.title consistency
  * reactivity
- * forced lazyloaded, forced prefetch, lazyscripts, only run on firstload scripts or always run for tabs
+ * forced lazyloaded, forced prefetch tabs
  * useful functions, like useresource ...
  *  - csa-bind (for auto update based on value change)
  * webcomponents, like csa-forms ...
@@ -32,7 +31,6 @@ export function init(o) {
   customElements.define('csa-tab-wrapper', spa.TabWrapper);
   customElements.define('csa-tab', spa.Tab);
   customElements.define('csa-form', spa.Form, { extends: 'form' });
-
 
   window.watcher = {
     get (name) {

@@ -57,9 +57,28 @@ export class Form extends HTMLFormElement {
 
     this.addEventListener('submit', async (e) => {
       e.preventDefault();
-      await this.onsend();
+
+      if (this.submit) {
+        this.submit();
+      } else {
+        console.error(`CSA_FORM_SUBMIT_UNDEFINED${this.id && ` on #${this.id}`}`);
+      }
     });
+
+    this.dispatchEvent(new Event('csa-form-init'));
   }
 
-  onsend = null;
+  submit = null;
+}
+
+export function addAsync (s) {
+  // console.log(`asynced ${s}`);
+  // console.trace();
+  return (
+    `
+(async () => {
+  ${s}
+})();
+`
+  );
 }

@@ -3,13 +3,13 @@
   <p>you live here: <span id="address">loading...</span></p>
   <p>seed: <span id="seed"></span></p>
   <p>more info: https://randomuser.me/api/</p>
-  <script defer async csa-execute>
-    (async () => {
+  <script defer csa-execute>
     let apiResult = await fetch('https://randomuser.me/api/');
     apiResult = await apiResult.json();
     
     address.innerText = `${apiResult.results[0].location.street.name} ${apiResult.results[0].location.street.number}`;
     seed.innerText = `${apiResult.info.seed}`;
-    })()
+
+    // console.log('random-profile.html');
   </script>
 </csa-tab>

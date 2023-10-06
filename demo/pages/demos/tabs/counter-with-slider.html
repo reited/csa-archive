@@ -4,7 +4,7 @@
   <span id="reactive" csa-watch="count">0</span>
   <button id="pb">+<span csa-watch="multiplier">1</span></button>
   <input type="range" name="" id="multiplier" value="1">
-  <script csa-reexecute="true">
+  <script csa-reexecute>
     mb.onclick = () => {
       window.watcher.set('count', reactive.innerHTML - window.watcher.get('multiplier'));
     }
@@ -17,5 +17,7 @@
     }
 
     window.watcher.set('multiplier', 1);
+
+    // console.log('counter-with-slider.html');
   </script>
 </csa-tab>
