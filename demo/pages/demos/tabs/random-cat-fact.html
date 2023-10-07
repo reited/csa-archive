@@ -1,3 +1,19 @@
 <csa-tab name="./pages/demos/tabs/random-cat-fact.html" csa-title="random cat fact">
-  
+  <p>
+    random cat fact: <span csa-watch="fact"></span>
+  </p>
+  <button id="getnew">Get new</button>
+
+  <script csa-execute>
+    async function getFact () {
+      const result = await (await fetch('https://catfact.ninja/fact')).json();
+      const fact = result.fact;
+
+      csa.watcher.set('fact', fact);
+    }
+    await getFact();
+    getnew.onclick = async () => {
+      await getFact();
+    }
+  </script>
 </csa-tab>

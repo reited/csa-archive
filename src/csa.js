@@ -10,6 +10,9 @@
  *  - csa-bind (for auto update based on value change)
  * webcomponents, like csa-forms ...
  *  - form autosave
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval! && https://esbuild.github.io/content-types/#direct-eval
+ * 
  */
 
 import * as spa from "./spa/spa.js";

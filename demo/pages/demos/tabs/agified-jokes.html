@@ -21,7 +21,7 @@
     async function submit () {
       results.hidden = false;
 
-      console.log(name);
+      const name = document.querySelector('#name');
 
       const age = await (await fetch(`https://api.agify.io?name=${name.value}`)).json()
       csa.watcher.set('age', age.age);
