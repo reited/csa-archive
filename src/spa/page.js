@@ -1,4 +1,4 @@
-import { Title } from "./spa.js";
+import { Title, addAsync } from "./spa.js";
 
 export class PageWrapper extends HTMLElement {
   loading = null;
@@ -36,11 +36,18 @@ export class Page extends HTMLElement {
   constructor () {
     super();
 
+    /*
     // running the scripts
     let scripts = this.querySelectorAll('script');
     scripts.forEach((e) => {
       // later for myself: https://esbuild.github.io/content-types/#direct-eval
       eval(e.text);
+    });
+    */
+
+    let scripts = this.querySelectorAll('script');
+    scripts.forEach((e) => {
+      eval(addAsync(e.innerHTML));
     });
   }
 }

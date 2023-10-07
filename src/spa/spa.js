@@ -75,7 +75,7 @@ export function addAsync (s) {
   // console.log(`asynced ${s}`);
   // console.trace();
   return (
-    `
+`
 (async () => {
   ${s}
 })();

@@ -31,17 +31,17 @@ export function init(o) {
   customElements.define('csa-tab-wrapper', spa.TabWrapper);
   customElements.define('csa-tab', spa.Tab);
   customElements.define('csa-form', spa.Form, { extends: 'form' });
+}
 
-  window.watcher = {
-    get (name) {
-      return window.watcher[name];
-    },
-    set (name, value) {
-      window.watcher[name] = value;
-      document.querySelectorAll(`[csa-watch="${name}"]`).forEach((e) => e.innerHTML = value);
-    },
-    datas: {}
-  }
+export const watcher = {
+  get (name) {
+    return this.datas[name];
+  },
+  set (name, value) {
+    this.datas[name] = value;
+    document.querySelectorAll(`[csa-watch="${name}"]`).forEach((e) => e.innerHTML = value);
+  },
+  datas: {}
 }
 
 // export { spa, reactivity };

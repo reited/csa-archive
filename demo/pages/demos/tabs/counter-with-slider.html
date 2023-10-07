@@ -6,17 +6,17 @@
   <input type="range" name="" id="multiplier" value="1">
   <script csa-reexecute>
     mb.onclick = () => {
-      window.watcher.set('count', reactive.innerHTML - window.watcher.get('multiplier'));
+      csa.watcher.set('count', reactive.innerHTML - csa.watcher.get('multiplier'));
     }
     pb.onclick = () => {
-      window.watcher.set('count', reactive.innerHTML - -window.watcher.get('multiplier'));
+      csa.watcher.set('count', reactive.innerHTML - -csa.watcher.get('multiplier'));
     }
 
     multiplier.oninput = () => {
-      window.watcher.set('multiplier', multiplier.value);
+      csa.watcher.set('multiplier', multiplier.value);
     }
 
-    window.watcher.set('multiplier', 1);
+    csa.watcher.set('multiplier', 1);
 
     // console.log('counter-with-slider.html');
   </script>

@@ -3,7 +3,7 @@
     <label for="name">
       enter your name:
     </label>
-    <input type="text" name="name" id="name" oninput="window.watcher.set('name', this.value)" required>
+    <input type="text" name="name" id="name" oninput="csa.watcher.set('name', this.value)" required>
     <button type="submit">send <span csa-watch="name"></span> as your name</button>
   </form>
   <div id="results" hidden>
@@ -21,11 +21,13 @@
     async function submit () {
       results.hidden = false;
 
+      console.log(name);
+
       const age = await (await fetch(`https://api.agify.io?name=${name.value}`)).json()
-      window.watcher.set('age', age.age);
+      csa.watcher.set('age', age.age);
       const joke = await (await fetch('https://official-joke-api.appspot.com/random_joke')).json();
-      window.watcher.set('joke_setup', joke.setup);
-      window.watcher.set('joke_punchline', joke.punchline);
+      csa.watcher.set('joke_setup', joke.setup);
+      csa.watcher.set('joke_punchline', joke.punchline);
     }
 
     form.addEventListener('csa-form-init', (e) => {
