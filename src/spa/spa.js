@@ -55,6 +55,15 @@ export class Form extends HTMLFormElement {
   constructor () {
     super();
 
+    if (this.getAttribute('csa-form-autosave')) {
+      this.addEventListener('input', () => {
+        this.save(`csa-form-autosave-#${this.id}:${document.querySelector('[csa-tab-active]').getAttribute('name')}`, this.getAttribute('csa-form-autosave'));
+      });
+      if (this.getAttribute('csa-form-restore') == 'true') {
+        this.load(`csa-form-autosave-#${this.id}:${document.querySelector('[csa-tab-active]').getAttribute('name')}`, this.getAttribute('csa-form-autosave'));
+      }
+    }
+
     this.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -67,6 +76,52 @@ export class Form extends HTMLFormElement {
 
     this.dispatchEvent(new Event('csa-form-init'));
   }
+
+  save (name, storage) {
+    if (storage == 'local') {
+      localStorage.setItem(name, JSON.stringify(this.values()));
+    } else if (storage == 'session') {
+      sessionStorage.setItem(name, JSON.stringify(this.values()));
+    } else {
+      console.warn(`CSA_FROM_AUTOSAVE_LOCATION_UNDEFINED${this.id && ` on #${this.id}`}. This could result in csa-form elements not working as excepted.`);
+      csa.watcher.set(name, this.values());
+    }
+  }
+
+  load (name, storage) {
+    let formData = {};
+    if (storage == 'local') {
+      formData = JSON.parse(localStorage.getItem(name));
+    } else if (storage == 'session') {
+      formData = JSON.parse(sessionStorage.getItem(name));
+    } else {
+      console.warn(`CSA_FROM_AUTOSAVE_LOCATION_UNDEFINED${this.id && ` on #${this.id}`}. This could result in csa-form elements not working as excepted.`);
+      formData = csa.watcher.get(name);
+    }
+
+    // if (!formData) return;
+
+    for (const key in formData) {
+      this.querySelector(`[name="${key}"]`).value = formData[key];
+    }
+  }
+
+  values () {
+    const formData = {};
+
+    for (const element of this.elements) {
+      if (element.name) {
+        if (element.type == 'checkbox') {
+          formData[element.name] = element.checked ? element.value : 'no';
+        } else {
+          formData[element.name] = element.value;
+        }
+      }
+    }
+
+    return formData;
+  }
+  
 
   submit = null;
 }

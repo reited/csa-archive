@@ -1,23 +1,50 @@
 <csa-tab csa-title="counter with slider" name="./pages/demos/tabs/counter-with-slider.html">
-  <p>couter with slider demo: </p>
+  <p>counter with slider demo: </p>
   <button id="mb">-<span csa-watch="multiplier">1</span></button>
   <span id="reactive" csa-watch="count">0</span>
   <button id="pb">+<span csa-watch="multiplier">1</span></button>
-  <input type="range" name="" id="multiplier" value="1">
+  <input type="range" name="" id="multiplier" value="1" csa-bind="multiplier">
+
+  <button id="toggle_reactivity"><span csa-watch="counter_reactivity">Disable</span> counter reactivity</button>
+
+  <div csa-map="logs" csa-map-index="i" csa-map-value="e" csa-watch="logs" id="logs"></div>
+  <p csa-map-template="logs" hidden>[<span csa-map-render="i"></span>] : <span csa-map-render="e"></span></p>
+  
+
   <script csa-reexecute>
     mb.onclick = () => {
-      csa.watcher.set('count', reactive.innerHTML - csa.watcher.get('multiplier'));
+      csa.watcher.set('count', reactive.innerHTML - csa.watcher.get('multiplier'), (oldValue, newValue) => {
+        csa.watcher.set('logs', csa.watcher.get('logs').prepend(`#mb clicked $ ${oldValue} -> ${newValue}`));
+      });
     }
     pb.onclick = () => {
-      csa.watcher.set('count', reactive.innerHTML - -csa.watcher.get('multiplier'));
+      csa.watcher.set('count', reactive.innerHTML - -csa.watcher.get('multiplier'), (oldValue, newValue) => {
+        csa.watcher.set('logs', csa.watcher.get('logs').prepend(`#pb clicked $ ${oldValue} -> ${newValue}`));
+      });
     }
 
-    multiplier.oninput = () => {
-      csa.watcher.set('multiplier', multiplier.value);
+    toggle_reactivity.onclick = () => {
+      if (csa.watcher.get('counter_reactivity') == 'Disable') {
+        csa.watcher.set('counter_reactivity', 'Enable', (oldValue, newValue) => {
+          csa.watcher.set('logs', csa.watcher.get('logs').prepend(`#toggle_reactivity clicked $ ${newValue.toLowerCase()} -> ${oldValue.toLowerCase()}`))
+        });
+        csa.watcher.unbind(multiplier);
+        return;
+      }
+
+      csa.watcher.set('counter_reactivity', 'Disable', (oldValue, newValue) => {
+        csa.watcher.set('logs', csa.watcher.get('logs').prepend(`#toggle_reactivity clicked $ ${newValue.toLowerCase()} -> ${oldValue.toLowerCase()}`))
+      });
+      csa.watcher.bind(multiplier);
     }
+
+    csa.watcher.bind(multiplier);
+    csa.watcher.set('counter_reactivity', 'Disable');
 
     csa.watcher.set('multiplier', 1);
+    csa.watcher.set('logs', []);
+    csa.watcher.set('count', 0);
 
-    // console.log('counter-with-slider.html');
+    csa.watcher.map(logs);
   </script>
 </csa-tab>
