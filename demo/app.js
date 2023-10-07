@@ -1,5 +1,5 @@
-import * as csa from "../src/csa.js";
-// import * as csa from "../get/csa@v0.0.3.js";
+// import * as csa from "../src/csa.js";
+import * as csa from "../get/csa@v0.0.4.js";
 
 window.csa = csa; // making it available globally
 csa.init({
